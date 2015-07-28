@@ -7,11 +7,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.firebase.client.Firebase;
 import com.yashdalfthegray.songaday.Fragments.SongListFragment;
 import com.yashdalfthegray.songaday.R;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    public Firebase songsDb;
 
     private Toolbar mToolbar;
 
@@ -19,6 +22,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Firebase.setAndroidContext(this);
+        songsDb = new Firebase("https://onesongaday.firebaseio.com/songs");
 
         mToolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
