@@ -8,14 +8,22 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.yashdalfthegray.songaday.Fragments.SongListFragment;
 import com.yashdalfthegray.songaday.R;
+import com.yashdalfthegray.songaday.Utility.Song;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
 
     public Firebase songsDb;
+    public ArrayList<Song> songList = new ArrayList<>();
 
     private Toolbar mToolbar;
 
@@ -29,6 +37,23 @@ public class MainActivity extends AppCompatActivity {
 
         mToolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
+
+        songsDb.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.i("Main Activity", "Found " + dataSnapshot.getChildrenCount() + " children in the database!");
+
+                for (DataSnapshot songSnapshot: dataSnapshot.getChildren()) {
+                    songList.add(songSnapshot.getValue(Song.class));
+                }
+                Log.d("MainActivity", songList.get(5).toString());
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                Log.w("MainActivity", "Firebase read error: " + firebaseError.getMessage());
+            }
+        });
 
         openFragment(new SongListFragment());
         setTitle(R.string.title_song_list);
