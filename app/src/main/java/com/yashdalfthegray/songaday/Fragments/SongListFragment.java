@@ -13,12 +13,18 @@ import android.view.ViewGroup;
 
 import com.yashdalfthegray.songaday.Activities.MainActivity;
 import com.yashdalfthegray.songaday.Adapters.SongAdapter;
+import com.yashdalfthegray.songaday.Models.Song;
 import com.yashdalfthegray.songaday.R;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class SongListFragment extends Fragment {
+
+    public ArrayList<Song> songList;
 
     View inflatedView;
 
@@ -38,12 +44,14 @@ public class SongListFragment extends Fragment {
         // Inflate the layout for this fragment
         this.inflatedView = inflater.inflate(R.layout.fragment_song_list, container, false);
 
-        mRecyclerView = (RecyclerView)inflatedView.findViewById(R.id.song_recycler);
-        // mAdapter = new SongAdapter();
-        // mLayoutManager = new LinearLayoutManager();
+        songList = this.getArguments().getParcelableArrayList("songList");
 
-        // mRecyclerView.setAdapter(mAdapter);
-        // mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView = (RecyclerView)inflatedView.findViewById(R.id.song_recycler);
+        mAdapter = new SongAdapter(songList);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
         addFab = (FloatingActionButton)inflatedView.findViewById(R.id.add_fab);
         addFab.setOnClickListener(onClickListener);

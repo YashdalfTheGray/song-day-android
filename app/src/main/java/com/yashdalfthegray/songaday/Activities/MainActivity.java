@@ -46,6 +46,15 @@ public class MainActivity extends AppCompatActivity {
                     songList.add(songSnapshot.getValue(Song.class));
                 }
                 Log.d("MainActivity", songList.get(5).toString());
+
+                // Going to have to use a bundle here...for whatever fucking reason...thanks Android!
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("songList", songList);
+
+                SongListFragment songFragment = new SongListFragment();
+                songFragment.setArguments(bundle);
+                openFragment(songFragment);
+                setTitle(R.string.title_song_list);
             }
 
             @Override
@@ -53,11 +62,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.w("MainActivity", "Firebase read error: " + firebaseError.getMessage());
             }
         });
-
-        // Going to have to use a bundle here...for whatever fucking reason...thanks Android!
-
-        openFragment(new SongListFragment());
-        setTitle(R.string.title_song_list);
     }
 
     @Override
