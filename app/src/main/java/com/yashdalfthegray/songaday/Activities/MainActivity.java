@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
                 for (DataSnapshot songSnapshot : dataSnapshot.getChildren()) {
                     songList.add(songSnapshot.getValue(Song.class));
                 }
-                Log.d("MainActivity", songList.get(5).toString());
 
                 // Going to have to use a bundle here...for whatever fucking reason...thanks Android!
                 Bundle bundle = new Bundle();
