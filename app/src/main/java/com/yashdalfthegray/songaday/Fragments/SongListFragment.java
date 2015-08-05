@@ -4,11 +4,15 @@ package com.yashdalfthegray.songaday.Fragments;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.yashdalfthegray.songaday.Activities.MainActivity;
+import com.yashdalfthegray.songaday.Adapters.SongAdapter;
 import com.yashdalfthegray.songaday.R;
 
 /**
@@ -18,18 +22,28 @@ public class SongListFragment extends Fragment {
 
     View inflatedView;
 
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
     private FloatingActionButton addFab;
 
     public SongListFragment() {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         this.inflatedView = inflater.inflate(R.layout.fragment_song_list, container, false);
+
+        mRecyclerView = (RecyclerView)inflatedView.findViewById(R.id.song_recycler);
+        // mAdapter = new SongAdapter();
+        // mLayoutManager = new LinearLayoutManager();
+
+        // mRecyclerView.setAdapter(mAdapter);
+        // mRecyclerView.setLayoutManager(mLayoutManager);
 
         addFab = (FloatingActionButton)inflatedView.findViewById(R.id.add_fab);
         addFab.setOnClickListener(onClickListener);

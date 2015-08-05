@@ -8,14 +8,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.yashdalfthegray.songaday.Fragments.SongListFragment;
 import com.yashdalfthegray.songaday.R;
-import com.yashdalfthegray.songaday.Utility.Song;
+import com.yashdalfthegray.songaday.Models.Song;
 
 import java.util.ArrayList;
 
@@ -43,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.i("Main Activity", "Found " + dataSnapshot.getChildrenCount() + " children in the database!");
 
-                for (DataSnapshot songSnapshot: dataSnapshot.getChildren()) {
+                for (DataSnapshot songSnapshot : dataSnapshot.getChildren()) {
                     songList.add(songSnapshot.getValue(Song.class));
                 }
                 Log.d("MainActivity", songList.get(5).toString());
@@ -54,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.w("MainActivity", "Firebase read error: " + firebaseError.getMessage());
             }
         });
+
+        // Going to have to use a bundle here...for whatever fucking reason...thanks Android!
 
         openFragment(new SongListFragment());
         setTitle(R.string.title_song_list);
