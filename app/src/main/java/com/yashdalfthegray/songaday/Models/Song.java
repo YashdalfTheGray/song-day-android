@@ -1,4 +1,4 @@
-package com.yashdalfthegray.songaday.Utility;
+package com.yashdalfthegray.songaday.Models;
 
 import java.util.Date;
 
@@ -33,6 +33,7 @@ public class Song {
         return datePosted;
     }
 
+    @Override
     public String toString() {
         return getTitle() + " by " + getArtist() + ", " + getGenre() + ", " + getLink() + ". Posted at " + getDate();
     }
