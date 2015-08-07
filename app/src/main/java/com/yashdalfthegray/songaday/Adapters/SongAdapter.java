@@ -31,7 +31,14 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         TextView titleView = (TextView)holder.view.getRootView().findViewById(R.id.title_view);
+        TextView artistView = (TextView)holder.view.getRootView().findViewById(R.id.artist_view);
+        TextView dateView = (TextView)holder.view.getRootView().findViewById(R.id.date_view);
+        TextView genreView = (TextView)holder.view.getRootView().findViewById(R.id.genre_view);
+
         titleView.setText(mSongList.get(position).getTitle());
+        artistView.setText("by " + mSongList.get(position).getArtist());
+        dateView.setText("Posted " + mSongList.get(position).getDate());
+        genreView.setText(mSongList.get(position).getGenre());
     }
 
     @Override
