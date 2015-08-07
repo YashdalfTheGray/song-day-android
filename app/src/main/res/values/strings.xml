@@ -7,4 +7,8 @@
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_song_list">Songs</string>
+    <string name="sample_title">Song Title</string>
+    <string name="sample_artist">by Artist</string>
+    <string name="sample_date">Posted Today at 7:51 AM</string>
+    <string name="sample_genre">Genre</string>
 </resources>
