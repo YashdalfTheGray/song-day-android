@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                 SongListFragment songFragment = new SongListFragment();
                 songFragment.setArguments(bundle);
                 openFragment(songFragment);
-                setTitle(R.string.title_song_list);
+                //setTitle(R.string.title_song_list);
             }
 
             @Override
