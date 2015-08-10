@@ -11,4 +11,5 @@
     <string name="sample_artist">by Artist</string>
     <string name="sample_date">Posted Today at 7:51 AM</string>
     <string name="sample_genre">Genre</string>
+    <string name="enable_player_title">Enable embedded Youtube player</string>
 </resources>
