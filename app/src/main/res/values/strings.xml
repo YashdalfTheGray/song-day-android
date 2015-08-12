@@ -12,4 +12,7 @@
     <string name="sample_date">Posted Today at 7:51 AM</string>
     <string name="sample_genre">Genre</string>
     <string name="enable_player_title">Enable embedded Youtube player</string>
+    <string name="title_settings">Settings</string>
+    <string name="drawer_open">Open Navigation</string>
+    <string name="drawer_close">Close Navigation</string>
 </resources>
