@@ -159,8 +159,8 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Log.d("MainActivity", "Settings button pressed");
+        if (id == R.id.action_about) {
+            Log.d("MainActivity", "About button pressed");
             return true;
         }
 
