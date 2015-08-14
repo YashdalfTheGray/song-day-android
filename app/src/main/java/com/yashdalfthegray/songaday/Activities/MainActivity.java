@@ -20,6 +20,7 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.yashdalfthegray.songaday.Adapters.NavDrawerAdapter;
+import com.yashdalfthegray.songaday.Fragments.AboutFragment;
 import com.yashdalfthegray.songaday.Fragments.SettingsFragment;
 import com.yashdalfthegray.songaday.Fragments.SongListFragment;
 import com.yashdalfthegray.songaday.Models.DrawerItem;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final static int SONG_LIST_FRAGMENT = 1;
     private final static int SETTINGS_FRAGMENT = 2;
+    private final static int ABOUT_FRAGMENT = 3;
 
     private int currentFragment = 1;
 
@@ -161,6 +163,7 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_about) {
             Log.d("MainActivity", "About button pressed");
+            onTouchDrawer(ABOUT_FRAGMENT);
             return true;
         }
 
@@ -188,6 +191,10 @@ public class MainActivity extends AppCompatActivity {
             case SETTINGS_FRAGMENT:
                 setTitle(R.string.title_settings);
                 openFragment(new SettingsFragment());
+                break;
+            case ABOUT_FRAGMENT:
+                setTitle(R.string.title_about);
+                openFragment(new AboutFragment());
                 break;
             default:
                 break;
