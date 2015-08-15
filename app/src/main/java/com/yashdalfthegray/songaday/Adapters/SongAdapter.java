@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.yashdalfthegray.songaday.Models.Song;
@@ -46,12 +47,32 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
         return mSongList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public View view;
 
         public ViewHolder(View v) {
             super(v);
             view = v;
+
+            Button songEditButton = (Button)view.getRootView().findViewById(R.id.song_edit_button);
+            Button songLinkButton = (Button)view.getRootView().findViewById(R.id.song_link_button);
+
+            songEditButton.setOnClickListener(this);
+            songLinkButton.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            switch(v.getId()) {
+                case R.id.song_edit_button:
+                    Log.d("SongAdapter", "Edit button pressed at position " + getLayoutPosition());
+                    break;
+                case R.id.song_link_button:
+                    Log.d("SongAdapter", "Link button pressed at position " + getLayoutPosition());
+                    break;
+                default:
+                    Log.w("SongFragment", "Don't know what happened there!");
+            }
         }
     }
 }
