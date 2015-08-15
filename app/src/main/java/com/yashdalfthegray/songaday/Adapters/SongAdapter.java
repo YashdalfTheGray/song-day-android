@@ -1,5 +1,7 @@
 package com.yashdalfthegray.songaday.Adapters;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,49 +32,50 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         TextView titleView = (TextView)holder.view.getRootView().findViewById(R.id.title_view);
         TextView artistView = (TextView)holder.view.getRootView().findViewById(R.id.artist_view);
         TextView dateView = (TextView)holder.view.getRootView().findViewById(R.id.date_view);
         TextView genreView = (TextView)holder.view.getRootView().findViewById(R.id.genre_view);
 
+        Button songEditButton = (Button)holder.view.getRootView().findViewById(R.id.song_edit_button);
+        Button songLinkButton = (Button)holder.view.getRootView().findViewById(R.id.song_link_button);
+
+        View.OnClickListener onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch(v.getId()) {
+                    case R.id.song_edit_button:
+                        Log.d("SongAdapter", "Editing " + mSongList.get(position).getTitle() + " by " + mSongList.get(position).getArtist());
+                        break;
+                    case R.id.song_link_button:
+                        v.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mSongList.get(position).getLink())));
+                        break;
+                    default:
+                        Log.w("SongFragment", "Don't know what happened there!");
+                }
+            }
+        };
+
         titleView.setText(mSongList.get(position).getTitle());
         artistView.setText("by " + mSongList.get(position).getArtist());
         dateView.setText("Posted " + mSongList.get(position).getDate());
         genreView.setText(mSongList.get(position).getGenre());
+
+        songEditButton.setOnClickListener(onClickListener);
+        songLinkButton.setOnClickListener(onClickListener);
     }
 
-    @Override
     public int getItemCount() {
         return mSongList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public View view;
 
         public ViewHolder(View v) {
             super(v);
             view = v;
-
-            Button songEditButton = (Button)view.getRootView().findViewById(R.id.song_edit_button);
-            Button songLinkButton = (Button)view.getRootView().findViewById(R.id.song_link_button);
-
-            songEditButton.setOnClickListener(this);
-            songLinkButton.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            switch(v.getId()) {
-                case R.id.song_edit_button:
-                    Log.d("SongAdapter", "Edit button pressed at position " + getLayoutPosition());
-                    break;
-                case R.id.song_link_button:
-                    Log.d("SongAdapter", "Link button pressed at position " + getLayoutPosition());
-                    break;
-                default:
-                    Log.w("SongFragment", "Don't know what happened there!");
-            }
         }
     }
 }
