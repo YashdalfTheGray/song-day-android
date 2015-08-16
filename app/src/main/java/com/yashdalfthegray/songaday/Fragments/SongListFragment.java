@@ -62,7 +62,8 @@ public class SongListFragment extends Fragment {
         public void onClick(View v) {
             switch(v.getId()) {
                 case R.id.add_fab:
-                    Log.d("SongListFragment", "Add button pressed");
+                    getActivity().setTitle("Add a song");
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new AddSongFragment()).commit();
                     break;
                 default:
                     Log.w("SongListFragment", "Don't know what happened there!");
