@@ -2,6 +2,7 @@ package com.yashdalfthegray.songaday.Adapters;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,6 +48,9 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
                 switch(v.getId()) {
                     case R.id.song_edit_button:
                         Log.d("SongAdapter", "Editing " + mSongList.get(position).getTitle() + " by " + mSongList.get(position).getArtist());
+                        Snackbar editSnackbar = Snackbar.make(v.getRootView().findViewById(R.id.title_view), "Editing " + mSongList.get(position).getTitle() + " by " + mSongList.get(position).getArtist(), Snackbar.LENGTH_SHORT);
+                        editSnackbar.getView().setElevation(10000);
+                        editSnackbar.show();
                         break;
                     case R.id.song_link_button:
                         v.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mSongList.get(position).getLink())));
