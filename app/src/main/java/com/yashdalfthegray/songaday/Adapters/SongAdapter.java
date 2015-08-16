@@ -47,7 +47,6 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
             public void onClick(View v) {
                 switch(v.getId()) {
                     case R.id.song_edit_button:
-                        Log.d("SongAdapter", "Editing " + mSongList.get(position).getTitle() + " by " + mSongList.get(position).getArtist());
                         Snackbar editSnackbar = Snackbar.make(v.getRootView().findViewById(R.id.title_view), "Editing " + mSongList.get(position).getTitle() + " by " + mSongList.get(position).getArtist(), Snackbar.LENGTH_SHORT);
                         editSnackbar.getView().setElevation(10000);
                         editSnackbar.show();
