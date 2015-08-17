@@ -22,5 +22,9 @@
         This application is a native version of the Angular One Song a Day application. Both this application and the Angular version are being developed in the open on Github.
     </string>
     <string name="title_activity_add_song">Add a song</string>
+    <string name="hint_title">Title</string>
+    <string name="hint_artist">Artist</string>
+    <string name="hint_genre">Genre</string>
+    <string name="hint_link">Song link</string>
 
 </resources>
