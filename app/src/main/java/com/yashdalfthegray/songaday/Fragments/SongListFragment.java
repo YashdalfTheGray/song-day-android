@@ -1,6 +1,7 @@
 package com.yashdalfthegray.songaday.Fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.yashdalfthegray.songaday.Activities.AddSongActivity;
 import com.yashdalfthegray.songaday.Adapters.SongAdapter;
 import com.yashdalfthegray.songaday.Models.Song;
 import com.yashdalfthegray.songaday.R;
@@ -62,8 +64,9 @@ public class SongListFragment extends Fragment {
         public void onClick(View v) {
             switch(v.getId()) {
                 case R.id.add_fab:
-                    getActivity().setTitle("Add a song");
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new AddSongFragment()).commit();
+                    //getActivity().setTitle("Add a song");
+                    //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new AddSongFragment()).commit();
+                    getActivity().startActivity(new Intent(getActivity(), AddSongActivity.class));
                     break;
                 default:
                     Log.w("SongListFragment", "Don't know what happened there!");

@@ -19,6 +19,7 @@ public class AddSongActivity extends AppCompatActivity {
 
         mToolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
