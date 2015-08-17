@@ -18,9 +18,9 @@
     <string name="enable_player_secondary">Enable the embedded player for Youtube links</string>
     <string name="about_title">About this app</string>
     <string name="title_about">About</string>
-
     <string name="about_text">
         This application is a native version of the Angular One Song a Day application. Both this application and the Angular version are being developed in the open on Github.
     </string>
+    <string name="title_activity_add_song">Add a song</string>
 
 </resources>
