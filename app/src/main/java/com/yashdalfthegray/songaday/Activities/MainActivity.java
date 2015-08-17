@@ -1,36 +1,28 @@
 package com.yashdalfthegray.songaday.Activities;
 
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
-import com.yashdalfthegray.songaday.Adapters.NavDrawerAdapter;
 import com.yashdalfthegray.songaday.Fragments.AboutFragment;
 import com.yashdalfthegray.songaday.Fragments.SettingsFragment;
 import com.yashdalfthegray.songaday.Fragments.SongListFragment;
-import com.yashdalfthegray.songaday.Models.DrawerItem;
-import com.yashdalfthegray.songaday.R;
 import com.yashdalfthegray.songaday.Models.Song;
+import com.yashdalfthegray.songaday.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
