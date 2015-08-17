@@ -1,6 +1,8 @@
 package com.yashdalfthegray.songaday.Activities;
 
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -35,33 +37,16 @@ public class MainActivity extends AppCompatActivity {
 
     public Firebase songsDb;
     public ArrayList<Song> songList = new ArrayList<>();
-    public String HEADER_TITLE;
-
-    private final static int SONG_LIST_FRAGMENT = 1;
-    private final static int SETTINGS_FRAGMENT = 2;
-    private final static int ABOUT_FRAGMENT = 3;
-
-    private int currentFragment = 1;
 
     private Toolbar mToolbar;
-    private RecyclerView mRecycleerView;
-    private RecyclerView.LayoutManager mLayoutManager;
     private DrawerLayout drawer;
-    private RecyclerView.Adapter mAdapter;
+    private NavigationView mNavigationView;
     private ActionBarDrawerToggle mDrawerToggle;
-    private List<DrawerItem> dataList;
 
-
-    private void addItemsToDataList(){
-        dataList.add(new DrawerItem(getString(R.string.title_song_list), R.drawable.ic_music_note_black_36dp));
-        dataList.add(new DrawerItem(getString(R.string.title_settings), R.drawable.ic_settings_black_36dp));
-    }
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        HEADER_TITLE = getString(R.string.app_name);
 
         Firebase.setAndroidContext(this);
         songsDb = new Firebase("https://onesongaday.firebaseio.com/songs");
@@ -69,18 +54,8 @@ public class MainActivity extends AppCompatActivity {
         mToolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
-        mRecycleerView = (RecyclerView)findViewById(R.id.sidebar_recycler);
-        mRecycleerView.setHasFixedSize(true);
-        dataList = new ArrayList<>();
-        addItemsToDataList();
-
-        mAdapter = new NavDrawerAdapter(dataList, this, HEADER_TITLE);
-        mRecycleerView.setAdapter(mAdapter);
-
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecycleerView.setLayoutManager(mLayoutManager);
-
         drawer = (DrawerLayout)findViewById(R.id.main_drawer_layout);
+        mNavigationView = (NavigationView)findViewById(R.id.navigation_drawer);
         mDrawerToggle = new ActionBarDrawerToggle(this, drawer, mToolbar, R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerOpened(View drawerView) {
@@ -92,40 +67,25 @@ public class MainActivity extends AppCompatActivity {
                 super.onDrawerClosed(drawerView);
             }
         };
-
-        final GestureDetector mGestureDetector = new GestureDetector(MainActivity.this, new GestureDetector.SimpleOnGestureListener() {
+        NavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener = new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onSingleTapUp(MotionEvent e) {
-                return true;
-            }
-        });
-
-        mRecycleerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-                View child = rv.findChildViewUnder(e.getX(), e.getY());
-
-                if (child != null && mGestureDetector.onTouchEvent(e)) {
-                    drawer.closeDrawers();
-                    onTouchDrawer(rv.getChildLayoutPosition(child));
-                    return true;
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                if (menuItem.getTitle().toString().equals("Songs")) {
+                    onTouchDrawer(R.string.title_song_list);
+                    menuItem.setChecked(true);
                 }
+                else if (menuItem.getTitle().toString().equals("Settings")) {
+                    onTouchDrawer(R.string.title_settings);
+                    menuItem.setChecked(true);
+                }
+                drawer.closeDrawers();
                 return false;
             }
-
-            @Override
-            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-            }
-        });
+        };
 
         drawer.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
+        mNavigationView.setNavigationItemSelectedListener(onNavigationItemSelectedListener);
 
         songsDb.addValueEventListener(new ValueEventListener() {
             @Override
@@ -136,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                     songList.add(songSnapshot.getValue(Song.class));
                 }
 
-                onTouchDrawer(currentFragment);
+                onTouchDrawer(R.string.title_song_list);
             }
 
             @Override
@@ -163,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_about) {
             Log.d("MainActivity", "About button pressed");
-            onTouchDrawer(ABOUT_FRAGMENT);
+            onTouchDrawer(R.string.title_about);
             return true;
         }
 
@@ -175,9 +135,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onTouchDrawer(final int position) {
-        currentFragment = position;
         switch (position) {
-            case SONG_LIST_FRAGMENT:
+            case R.string.title_song_list:
                 // Going to have to use a bundle here...for whatever fucking reason...thanks Android!
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("songList", songList);
@@ -188,11 +147,11 @@ public class MainActivity extends AppCompatActivity {
                 setTitle(R.string.title_song_list);
                 openFragment(songFragment);
                 break;
-            case SETTINGS_FRAGMENT:
+            case R.string.title_settings:
                 setTitle(R.string.title_settings);
                 openFragment(new SettingsFragment());
                 break;
-            case ABOUT_FRAGMENT:
+            case R.string.title_about:
                 setTitle(R.string.title_about);
                 openFragment(new AboutFragment());
                 break;
