@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String ADD_MODE = "com.yashdalfthegray.SongaDay.ADD_MODE";
     public static final String SONG_CONTENT = "com.yashdalfthegray.SongaDay.SONG_CONTENT";
 
+    public static final String DB_URL = "https://onesongaday.firebaseio.com/songs";
+
     public Firebase songsDb;
     public ArrayList<Song> songList = new ArrayList<>();
 
@@ -46,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Firebase.setAndroidContext(this);
-        songsDb = new Firebase("https://onesongaday.firebaseio.com/songs");
+        songsDb = new Firebase(DB_URL);
 
         mToolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
