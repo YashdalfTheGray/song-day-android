@@ -87,10 +87,14 @@ public class MainActivity extends AppCompatActivity {
         songsDb.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                int i = 0;
+
                 Log.i("Main Activity", "Found " + dataSnapshot.getChildrenCount() + " children in the database!");
 
                 for (DataSnapshot songSnapshot : dataSnapshot.getChildren()) {
                     songList.add(songSnapshot.getValue(Song.class));
+                    songList.get(i).setKey(songSnapshot.getKey());
+                    i++;
                 }
 
                 onTouchDrawer(R.string.title_song_list);
