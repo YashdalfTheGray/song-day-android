@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String SONG_ACTIVITY_MODE = "com.yashdalfthegray.SongaDay.SONG_ACTIVITY_MODE";
     public static final String EDIT_MODE = "com.yashdalfthegray.SongaDay.EDIT_MODE";
     public static final String ADD_MODE = "com.yashdalfthegray.SongaDay.ADD_MODE";
+    public static final String SONG_CONTENT = "com.yashdalfthegray.SongaDay.SONG_CONTENT";
 
     public Firebase songsDb;
     public ArrayList<Song> songList = new ArrayList<>();

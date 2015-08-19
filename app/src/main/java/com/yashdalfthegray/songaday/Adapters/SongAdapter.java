@@ -2,7 +2,6 @@ package com.yashdalfthegray.songaday.Adapters;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,21 +46,19 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch(v.getId()) {
-                    case R.id.song_edit_button:
-//                        Snackbar editSnackbar = Snackbar.make(v.getRootView().findViewById(R.id.title_view), "Editing " + mSongList.get(position).getTitle() + " by " + mSongList.get(position).getArtist(), Snackbar.LENGTH_SHORT);
-//                        editSnackbar.getView().setElevation(10000);
-//                        editSnackbar.show();
-                        Intent intent = new Intent(v.getContext(), AddSongActivity.class);
-                        intent.putExtra(MainActivity.SONG_ACTIVITY_MODE, MainActivity.EDIT_MODE);
-                        v.getContext().startActivity(intent);
-                        break;
-                    case R.id.song_link_button:
-                        v.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mSongList.get(position).getLink())));
-                        break;
-                    default:
-                        Log.w("SongFragment", "Don't know what happened there!");
-                }
+            switch(v.getId()) {
+                case R.id.song_edit_button:
+                    Intent intent = new Intent(v.getContext(), AddSongActivity.class);
+                    intent.putExtra(MainActivity.SONG_ACTIVITY_MODE, MainActivity.EDIT_MODE);
+                    intent.putExtra(MainActivity.SONG_CONTENT, mSongList.get(position));
+                    v.getContext().startActivity(intent);
+                    break;
+                case R.id.song_link_button:
+                    v.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mSongList.get(position).getLink())));
+                    break;
+                default:
+                    Log.w("SongFragment", "Don't know what happened there!");
+            }
             }
         };
 

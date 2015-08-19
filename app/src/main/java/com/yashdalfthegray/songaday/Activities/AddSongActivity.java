@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.yashdalfthegray.songaday.Models.Song;
 import com.yashdalfthegray.songaday.R;
 
 public class AddSongActivity extends AppCompatActivity implements EditText.OnEditorActionListener, Button.OnClickListener {
@@ -26,6 +27,7 @@ public class AddSongActivity extends AppCompatActivity implements EditText.OnEdi
     private EditText editLink;
 
     private String activityMode;
+    private Song songContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ public class AddSongActivity extends AppCompatActivity implements EditText.OnEdi
         setContentView(R.layout.activity_add_song);
 
         activityMode = getIntent().getStringExtra(MainActivity.SONG_ACTIVITY_MODE);
+        songContent = getIntent().getParcelableExtra(MainActivity.SONG_CONTENT);
 
         actionButton = (Button)findViewById(R.id.song_action_button);
         editTitle = (EditText)findViewById(R.id.title_edit_text);
@@ -46,6 +49,12 @@ public class AddSongActivity extends AppCompatActivity implements EditText.OnEdi
         }
         else if (activityMode.equals(MainActivity.EDIT_MODE)) {
             setTitle("Edit song");
+            if(songContent != null) {
+                editTitle.setText(songContent.getTitle());
+                editArtist.setText(songContent.getArtist());
+                editGenre.setText(songContent.getGenre());
+                editLink.setText(songContent.getLink());
+            }
             actionButton.setText("Save");
         }
 
@@ -86,6 +95,7 @@ public class AddSongActivity extends AppCompatActivity implements EditText.OnEdi
     public void onClick(View v) {
         if (activityMode.equals(MainActivity.ADD_MODE)) {
             Log.d("AddSongActivity", "This should submit the form to push() and setValue()");
+
         }
         else if (activityMode.equals(MainActivity.EDIT_MODE)) {
             Log.d("AddSongActivity", "This should submit the form to updateChildren()");
