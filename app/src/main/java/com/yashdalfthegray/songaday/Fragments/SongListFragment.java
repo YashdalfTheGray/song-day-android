@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.yashdalfthegray.songaday.Activities.AddSongActivity;
+import com.yashdalfthegray.songaday.Activities.MainActivity;
 import com.yashdalfthegray.songaday.Adapters.SongAdapter;
 import com.yashdalfthegray.songaday.Models.Song;
 import com.yashdalfthegray.songaday.R;
@@ -64,9 +65,9 @@ public class SongListFragment extends Fragment {
         public void onClick(View v) {
             switch(v.getId()) {
                 case R.id.add_fab:
-                    //getActivity().setTitle("Add a song");
-                    //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new AddSongFragment()).commit();
-                    getActivity().startActivity(new Intent(getActivity(), AddSongActivity.class));
+                    Intent intent = new Intent(getActivity(), AddSongActivity.class);
+                    intent.putExtra(MainActivity.SONG_ACTIVITY_MODE, MainActivity.ADD_MODE);
+                    getActivity().startActivity(intent);
                     break;
                 default:
                     Log.w("SongListFragment", "Don't know what happened there!");
