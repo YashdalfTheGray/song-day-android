@@ -26,7 +26,9 @@
                 android:id="@+id/title_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint_title"/>
+                android:hint="@string/hint_title"
+                android:inputType="textCapWords|textAutoCorrect"
+                android:imeOptions="actionNext"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -40,7 +42,9 @@
                 android:id="@+id/artist_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint_artist"/>
+                android:hint="@string/hint_artist"
+                android:inputType="textCapWords|textAutoCorrect"
+                android:imeOptions="actionNext"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -54,7 +58,9 @@
                 android:id="@+id/genre_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint_genre"/>
+                android:hint="@string/hint_genre"
+                android:inputType="textCapWords|textAutoCorrect"
+                android:imeOptions="actionNext"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -68,7 +74,9 @@
                 android:id="@+id/link_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint_link"/>
+                android:hint="@string/hint_link"
+                android:inputType="textCapWords|textAutoCorrect"
+                android:imeOptions="actionDone"/>
 
         </android.support.design.widget.TextInputLayout>
 
