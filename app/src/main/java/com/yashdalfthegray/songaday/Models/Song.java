@@ -9,7 +9,7 @@ import java.util.Date;
  * Created by yash on 8/3/15.
  */
 public class Song implements Parcelable{
-    String artist, title, link, genre, date;
+    String artist, title, link, genre, date, key;
     Date datePosted;
 
     public Song () {
@@ -21,8 +21,12 @@ public class Song implements Parcelable{
         this.link = in.readString();
         this.genre = in.readString();
         this.date = in.readString();
+        this.key = in.readString();
     }
 
+    public void setKey (String value) {
+        key = value;
+    }
 
     public String getArtist () {
         return artist;
@@ -40,6 +44,10 @@ public class Song implements Parcelable{
         return genre;
     }
 
+    public String getKey () {
+        return key;
+    }
+
     public Date getDate () {
         datePosted = new Date(Long.parseLong(date) * 1000);
         return datePosted;
@@ -47,7 +55,7 @@ public class Song implements Parcelable{
 
     @Override
     public String toString() {
-        return getTitle() + " by " + getArtist() + ", " + getGenre() + ", " + getLink() + ". Posted at " + getDate();
+        return getKey() + ": " + getTitle() + " by " + getArtist() + ", " + getGenre() + ", " + getLink() + ". Posted at " + getDate();
     }
 
     @Override
@@ -62,6 +70,7 @@ public class Song implements Parcelable{
         dest.writeString(this.link);
         dest.writeString(this.genre);
         dest.writeString(this.date);
+        dest.writeString(this.key);
     }
 
     public static final Creator<Song> CREATOR
