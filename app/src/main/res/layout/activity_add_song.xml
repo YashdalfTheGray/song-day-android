@@ -74,4 +74,16 @@
 
     </LinearLayout>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/song_action_button"
+        android:text="Song Action"
+        android:background="?android:attr/selectableItemBackground"
+        android:paddingEnd="24dp"
+        android:paddingStart="24dp"
+        android:layout_marginBottom="8dp"/>
+
 </RelativeLayout>
