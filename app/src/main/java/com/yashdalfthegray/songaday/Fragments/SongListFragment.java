@@ -63,15 +63,15 @@ public class SongListFragment extends Fragment {
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            switch(v.getId()) {
-                case R.id.add_fab:
-                    Intent intent = new Intent(getActivity(), AddSongActivity.class);
-                    intent.putExtra(MainActivity.SONG_ACTIVITY_MODE, MainActivity.ADD_MODE);
-                    getActivity().startActivity(intent);
-                    break;
-                default:
-                    Log.w("SongListFragment", "Don't know what happened there!");
-            }
+        switch(v.getId()) {
+            case R.id.add_fab:
+                Intent intent = new Intent(getActivity(), AddSongActivity.class);
+                intent.putExtra(MainActivity.SONG_ACTIVITY_MODE, MainActivity.ADD_MODE);
+                getActivity().startActivity(intent);
+                break;
+            default:
+                Log.w("SongListFragment", "Don't know what happened there!");
+        }
         }
     };
 }
