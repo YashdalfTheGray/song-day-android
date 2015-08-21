@@ -1,6 +1,6 @@
 package com.yashdalfthegray.songaday.Activities;
 
-import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -14,8 +14,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
 import com.yashdalfthegray.songaday.Models.Song;
 import com.yashdalfthegray.songaday.R;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AddSongActivity extends AppCompatActivity implements EditText.OnEditorActionListener, Button.OnClickListener {
 
@@ -29,10 +34,15 @@ public class AddSongActivity extends AppCompatActivity implements EditText.OnEdi
     private String activityMode;
     private Song songContent;
 
+    Firebase songRef;
+    Map<String, Object> songObject;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_song);
+
+        songObject = new HashMap<>();
 
         activityMode = getIntent().getStringExtra(MainActivity.SONG_ACTIVITY_MODE);
         songContent = getIntent().getParcelableExtra(MainActivity.SONG_CONTENT);
@@ -49,12 +59,16 @@ public class AddSongActivity extends AppCompatActivity implements EditText.OnEdi
         }
         else if (activityMode.equals(MainActivity.EDIT_MODE)) {
             setTitle("Edit song");
+
             if(songContent != null) {
                 editTitle.setText(songContent.getTitle());
                 editArtist.setText(songContent.getArtist());
                 editGenre.setText(songContent.getGenre());
                 editLink.setText(songContent.getLink());
+
+                songRef = new Firebase(MainActivity.DB_URL + '/' + songContent.getKey());
             }
+
             actionButton.setText("Save");
         }
 
@@ -95,11 +109,45 @@ public class AddSongActivity extends AppCompatActivity implements EditText.OnEdi
     public void onClick(View v) {
         if (activityMode.equals(MainActivity.ADD_MODE)) {
             Log.d("AddSongActivity", "This should submit the form to push() and setValue()");
-
+            finish();
         }
         else if (activityMode.equals(MainActivity.EDIT_MODE)) {
             Log.d("AddSongActivity", "This should submit the form to updateChildren()");
+            findChangedProperties();
+            if(songObject.size() > 0) {
+                songRef.updateChildren(songObject, new Firebase.CompletionListener() {
+                    @Override
+                    public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                        if (firebaseError != null) {
+                            Snackbar firebaseErrorSnackbar = Snackbar.make(findViewById(R.id.add_song_activity_root), "Couldn't save song :(", Snackbar.LENGTH_SHORT);
+                            firebaseErrorSnackbar.getView().setElevation(10000);
+                            firebaseErrorSnackbar.show();
+                            Log.e("AddSongActivity", firebaseError.getMessage());
+                        }
+                        else {
+                            finish();
+                        }
+                    }
+                });
+            }
+            else {
+                finish();
+            }
         }
-        finish();
+    }
+
+    private void findChangedProperties() {
+        if (!editTitle.getText().toString().equals(songContent.getTitle())) {
+            songObject.put("title", editTitle.getText().toString());
+        }
+        if (!editArtist.getText().toString().equals(songContent.getArtist())) {
+            songObject.put("artist", editArtist.getText().toString());
+        }
+        if (!editGenre.getText().toString().equals(songContent.getGenre())) {
+            songObject.put("genre", editGenre.getText().toString());
+        }
+        if (!editLink.getText().toString().equals(songContent.getLink())) {
+            songObject.put("link", editLink.getText().toString());
+        }
     }
 }
