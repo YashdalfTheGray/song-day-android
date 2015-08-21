@@ -118,15 +118,15 @@ public class AddSongActivity extends AppCompatActivity implements EditText.OnEdi
                 songRef.updateChildren(songObject, new Firebase.CompletionListener() {
                     @Override
                     public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-                        if (firebaseError != null) {
-                            Snackbar firebaseErrorSnackbar = Snackbar.make(findViewById(R.id.add_song_activity_root), "Couldn't save song :(", Snackbar.LENGTH_SHORT);
-                            firebaseErrorSnackbar.getView().setElevation(10000);
-                            firebaseErrorSnackbar.show();
-                            Log.e("AddSongActivity", firebaseError.getMessage());
-                        }
-                        else {
-                            finish();
-                        }
+                    if (firebaseError != null) {
+                        Snackbar firebaseErrorSnackbar = Snackbar.make(findViewById(R.id.add_song_activity_root), "Couldn't save song :(", Snackbar.LENGTH_SHORT);
+                        firebaseErrorSnackbar.getView().setElevation(10000);
+                        firebaseErrorSnackbar.show();
+                        Log.e("AddSongActivity", firebaseError.getMessage());
+                    }
+                    else {
+                        finish();
+                    }
                     }
                 });
             }
