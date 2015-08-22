@@ -36,6 +36,7 @@ public class AddSongActivity extends AppCompatActivity implements EditText.OnEdi
 
     Firebase songRef;
     Map<String, Object> songObject;
+    Snackbar addSongSnackbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,9 +120,9 @@ public class AddSongActivity extends AppCompatActivity implements EditText.OnEdi
                     @Override
                     public void onComplete(FirebaseError firebaseError, Firebase firebase) {
                     if (firebaseError != null) {
-                        Snackbar firebaseErrorSnackbar = Snackbar.make(findViewById(R.id.add_song_activity_root), "Couldn't save song :(", Snackbar.LENGTH_SHORT);
-                        firebaseErrorSnackbar.getView().setElevation(10000);
-                        firebaseErrorSnackbar.show();
+                        addSongSnackbar = Snackbar.make(findViewById(R.id.add_song_activity_root), "Couldn't save song :(", Snackbar.LENGTH_SHORT);
+                        addSongSnackbar.getView().setElevation(10000);
+                        addSongSnackbar.show();
                         Log.e("AddSongActivity", firebaseError.getMessage());
                     }
                     else {
