@@ -25,7 +25,7 @@ import com.yashdalfthegray.songaday.R;
 import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ValueEventListener {
 
     public static final String SONG_ACTIVITY_MODE = "com.yashdalfthegray.SongaDay.SONG_ACTIVITY_MODE";
     public static final String EDIT_MODE = "com.yashdalfthegray.SongaDay.EDIT_MODE";
@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String DB_URL = "https://onesongaday.firebaseio.com/songs";
 
     public Firebase songsDb;
+    public ValueEventListener childEventListener;
     public ArrayList<Song> songList = new ArrayList<>();
 
     private Toolbar mToolbar;
@@ -86,27 +87,32 @@ public class MainActivity extends AppCompatActivity {
         mDrawerToggle.syncState();
         mNavigationView.setNavigationItemSelectedListener(onNavigationItemSelectedListener);
 
-        songsDb.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                int i = 0;
+        //childEventListener = songsDb.addValueEventListener(this);
+        Log.d("MainActivity", "onCreate() done.");
+        Log.d("MainActivity", "childEventListener = " + childEventListener);
+    }
 
-                Log.i("Main Activity", "Found " + dataSnapshot.getChildrenCount() + " children in the database!");
+    @Override
+    protected void onResume() {
+        super.onResume();
+        childEventListener = songsDb.addValueEventListener(this);
+        Log.d("MainActivity", "onResume() done.");
+        Log.d("MainActivity", "childEventListener = " + childEventListener);
+    }
 
-                for (DataSnapshot songSnapshot : dataSnapshot.getChildren()) {
-                    songList.add(songSnapshot.getValue(Song.class));
-                    songList.get(i).setKey(songSnapshot.getKey());
-                    i++;
-                }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        songsDb.removeEventListener(childEventListener);
+        Log.d("MainActivity", "onPause() done.");
+        Log.d("MainActivity", "childEventListener = " + childEventListener);
+    }
 
-                onTouchDrawer(R.string.title_song_list);
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                Log.w("MainActivity", "Firebase read error: " + firebaseError.getMessage());
-            }
-        });
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d("MainActivity", "onStop() done.");
+        Log.d("MainActivity", "childEventListener = " + childEventListener);
     }
 
     @Override
@@ -133,8 +139,8 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void openFragment(final Fragment fragment) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+    public void openFragment(final Fragment fragment, final String tag) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment, tag).commit();
     }
 
     private void onTouchDrawer(final int position) {
@@ -148,18 +154,38 @@ public class MainActivity extends AppCompatActivity {
                 songFragment.setArguments(bundle);
 
                 setTitle(R.string.title_song_list);
-                openFragment(songFragment);
+                openFragment(songFragment, "songFragment");
                 break;
             case R.string.title_settings:
                 setTitle(R.string.title_settings);
-                openFragment(new SettingsFragment());
+                openFragment(new SettingsFragment(), "SettingsFragment");
                 break;
             case R.string.title_about:
                 setTitle(R.string.title_about);
-                openFragment(new AboutFragment());
+                openFragment(new AboutFragment(), "AboutFragment");
                 break;
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onDataChange(DataSnapshot dataSnapshot) {
+        int i = 0;
+
+        Log.i("Main Activity", "Found " + dataSnapshot.getChildrenCount() + " children in the database!");
+
+        for (DataSnapshot songSnapshot : dataSnapshot.getChildren()) {
+            songList.add(songSnapshot.getValue(Song.class));
+            songList.get(i).setKey(songSnapshot.getKey());
+            i++;
+        }
+
+        onTouchDrawer(R.string.title_song_list);
+    }
+
+    @Override
+    public void onCancelled(FirebaseError firebaseError) {
+        Log.w("MainActivity", "Firebase read error: " + firebaseError.getMessage());
     }
 }
