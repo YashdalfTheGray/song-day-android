@@ -12,6 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.yashdalfthegray.songaday.Activities.AddSongActivity;
 import com.yashdalfthegray.songaday.Activities.MainActivity;
 import com.yashdalfthegray.songaday.Adapters.SongAdapter;
@@ -23,8 +27,10 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SongListFragment extends Fragment {
+public class SongListFragment extends Fragment implements ValueEventListener {
 
+    public Firebase songsDb;
+    public ValueEventListener childEventListener;
     public ArrayList<Song> songList;
 
     View inflatedView;
@@ -45,7 +51,10 @@ public class SongListFragment extends Fragment {
         // Inflate the layout for this fragment
         this.inflatedView = inflater.inflate(R.layout.fragment_song_list, container, false);
 
-        songList = this.getArguments().getParcelableArrayList("songList");
+        songList = new ArrayList<>();
+
+        songsDb = new Firebase(MainActivity.DB_URL);
+        childEventListener = songsDb.addValueEventListener(this);
 
         mRecyclerView = (RecyclerView)inflatedView.findViewById(R.id.song_recycler);
         mAdapter = new SongAdapter(songList);
@@ -74,4 +83,22 @@ public class SongListFragment extends Fragment {
         }
         }
     };
+
+    @Override
+    public void onDataChange(DataSnapshot dataSnapshot) {
+        int i = 0;
+
+        Log.i("Main Activity", "Found " + dataSnapshot.getChildrenCount() + " children in the database!");
+
+        for (DataSnapshot songSnapshot : dataSnapshot.getChildren()) {
+            songList.add(songSnapshot.getValue(Song.class));
+            songList.get(i).setKey(songSnapshot.getKey());
+            i++;
+        }
+    }
+
+    @Override
+    public void onCancelled(FirebaseError firebaseError) {
+        Log.w("MainActivity", "Firebase read error: " + firebaseError.getMessage());
+    }
 }
