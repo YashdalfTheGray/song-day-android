@@ -54,7 +54,6 @@ public class SongListFragment extends Fragment implements ValueEventListener {
         songList = new ArrayList<>();
 
         songsDb = new Firebase(MainActivity.DB_URL);
-        childEventListener = songsDb.addValueEventListener(this);
 
         mRecyclerView = (RecyclerView)inflatedView.findViewById(R.id.song_recycler);
         mAdapter = new SongAdapter(songList);
@@ -67,6 +66,18 @@ public class SongListFragment extends Fragment implements ValueEventListener {
         addFab.setOnClickListener(onClickListener);
 
         return this.inflatedView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        childEventListener = songsDb.addValueEventListener(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        songsDb.removeEventListener(childEventListener);
     }
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -88,17 +99,18 @@ public class SongListFragment extends Fragment implements ValueEventListener {
     public void onDataChange(DataSnapshot dataSnapshot) {
         int i = 0;
 
-        Log.i("Main Activity", "Found " + dataSnapshot.getChildrenCount() + " children in the database!");
+        Log.i("SongListFragment", "Found " + dataSnapshot.getChildrenCount() + " children in the database!");
 
         for (DataSnapshot songSnapshot : dataSnapshot.getChildren()) {
             songList.add(songSnapshot.getValue(Song.class));
             songList.get(i).setKey(songSnapshot.getKey());
             i++;
         }
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onCancelled(FirebaseError firebaseError) {
-        Log.w("MainActivity", "Firebase read error: " + firebaseError.getMessage());
+        Log.w("SongListFragment", "Firebase read error: " + firebaseError.getMessage());
     }
 }
