@@ -25,7 +25,7 @@ import com.yashdalfthegray.songaday.R;
 import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity implements ValueEventListener {
+public class MainActivity extends AppCompatActivity {
 
     public static final String SONG_ACTIVITY_MODE = "com.yashdalfthegray.SongaDay.SONG_ACTIVITY_MODE";
     public static final String EDIT_MODE = "com.yashdalfthegray.SongaDay.EDIT_MODE";
@@ -33,10 +33,6 @@ public class MainActivity extends AppCompatActivity implements ValueEventListene
     public static final String SONG_CONTENT = "com.yashdalfthegray.SongaDay.SONG_CONTENT";
 
     public static final String DB_URL = "https://onesongaday.firebaseio.com/songs";
-
-    public Firebase songsDb;
-    public ValueEventListener childEventListener;
-    public ArrayList<Song> songList = new ArrayList<>();
 
     private Toolbar mToolbar;
     private DrawerLayout drawer;
@@ -49,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements ValueEventListene
         setContentView(R.layout.activity_main);
 
         Firebase.setAndroidContext(this);
-        songsDb = new Firebase(DB_URL);
 
         mToolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
@@ -86,33 +81,12 @@ public class MainActivity extends AppCompatActivity implements ValueEventListene
         drawer.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
         mNavigationView.setNavigationItemSelectedListener(onNavigationItemSelectedListener);
-
-        //childEventListener = songsDb.addValueEventListener(this);
-        Log.d("MainActivity", "onCreate() done.");
-        Log.d("MainActivity", "childEventListener = " + childEventListener);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        childEventListener = songsDb.addValueEventListener(this);
-        Log.d("MainActivity", "onResume() done.");
-        Log.d("MainActivity", "childEventListener = " + childEventListener);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        songsDb.removeEventListener(childEventListener);
-        Log.d("MainActivity", "onPause() done.");
-        Log.d("MainActivity", "childEventListener = " + childEventListener);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d("MainActivity", "onStop() done.");
-        Log.d("MainActivity", "childEventListener = " + childEventListener);
+        onTouchDrawer(R.string.title_song_list);
     }
 
     @Override
@@ -146,15 +120,8 @@ public class MainActivity extends AppCompatActivity implements ValueEventListene
     private void onTouchDrawer(final int position) {
         switch (position) {
             case R.string.title_song_list:
-                // Going to have to use a bundle here...for whatever fucking reason...thanks Android!
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("songList", songList);
-
-                SongListFragment songFragment = new SongListFragment();
-                songFragment.setArguments(bundle);
-
                 setTitle(R.string.title_song_list);
-                openFragment(songFragment, "songFragment");
+                openFragment(new SongListFragment(), "SongFragment");
                 break;
             case R.string.title_settings:
                 setTitle(R.string.title_settings);
@@ -167,25 +134,5 @@ public class MainActivity extends AppCompatActivity implements ValueEventListene
             default:
                 break;
         }
-    }
-
-    @Override
-    public void onDataChange(DataSnapshot dataSnapshot) {
-        int i = 0;
-
-        Log.i("Main Activity", "Found " + dataSnapshot.getChildrenCount() + " children in the database!");
-
-        for (DataSnapshot songSnapshot : dataSnapshot.getChildren()) {
-            songList.add(songSnapshot.getValue(Song.class));
-            songList.get(i).setKey(songSnapshot.getKey());
-            i++;
-        }
-
-        onTouchDrawer(R.string.title_song_list);
-    }
-
-    @Override
-    public void onCancelled(FirebaseError firebaseError) {
-        Log.w("MainActivity", "Firebase read error: " + firebaseError.getMessage());
     }
 }
