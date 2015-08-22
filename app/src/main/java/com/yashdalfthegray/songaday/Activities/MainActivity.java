@@ -81,6 +81,11 @@ public class MainActivity extends AppCompatActivity {
         drawer.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
         mNavigationView.setNavigationItemSelectedListener(onNavigationItemSelectedListener);
+    }
+
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
         onTouchDrawer(R.string.title_song_list);
     }
 
