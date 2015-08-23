@@ -1,5 +1,5 @@
 # song-day-android
-Native port of the Song a day angular app
+Native port of the Song a day angular app. App hosted [here](https://onesongaday.firebaseapp.com) and code hosted [here](https://github.com/YashdalfTheGray/song-day). 
 
 ## Useful links
 
